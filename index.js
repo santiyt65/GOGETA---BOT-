@@ -1,26 +1,13 @@
-import {
-  makeWASocket,
-  useMultiFileAuthState,
-  fetchLatestBaileysVersion,
-  DisconnectReason
-} from "@whiskeysockets/baileys";
+import { makeWASocket, useMultiFileAuthState, fetchLatestBaileysVersion, DisconnectReason } from "@whiskeysockets/baileys";
+import makeQR from "qrcode-terminal";
 import { Boom } from "@hapi/boom";
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
 import { handleCommand } from "./lib/functions.js";
-import { createRequire } from "module";
-
-const require = createRequire(import.meta.url);
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const startSock = async () => {
   const { state, saveCreds } = await useMultiFileAuthState("session");
 
   const sock = makeWASocket({
     auth: state,
-    printQRInTerminal: true,
     browser: ["Gogeta-Bot", "Chrome", "1.0.0"],
   });
 
@@ -37,7 +24,12 @@ const startSock = async () => {
     }
   });
 
-  sock.ev.on("connection.update", ({ connection, lastDisconnect }) => {
+  sock.ev.on("connection.update", ({ connection, lastDisconnect, qr }) => {
+    if (qr) {
+      console.log("📱 Escanea este QR para conectar tu bot:");
+      makeQR.generate(qr, { small: true });
+    }
+
     if (connection === "close") {
       const shouldReconnect =
         lastDisconnect?.error instanceof Boom &&
