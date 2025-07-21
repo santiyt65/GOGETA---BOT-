@@ -1,0 +1,1 @@
+// Aquí iría el comando ping si se separa
