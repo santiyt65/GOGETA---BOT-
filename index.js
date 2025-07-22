@@ -1,3 +1,4 @@
+import "./server.js";
 import { makeWASocket, useMultiFileAuthState, fetchLatestBaileysVersion, DisconnectReason } from "@whiskeysockets/baileys";
 import makeQR from "qrcode-terminal";
 import { Boom } from "@hapi/boom";
@@ -20,13 +21,13 @@ const startSock = async () => {
     try {
       await handleCommand(sock, m);
     } catch (e) {
-      console.error("❌ Error en handleCommand:", e);
+      console.error("âŒ Error en handleCommand:", e);
     }
   });
 
   sock.ev.on("connection.update", ({ connection, lastDisconnect, qr }) => {
     if (qr) {
-      console.log("📱 Escanea este QR para conectar tu bot:");
+      console.log("ðŸ“± Escanea este QR para conectar tu bot:");
       makeQR.generate(qr, { small: true });
     }
 
@@ -35,10 +36,10 @@ const startSock = async () => {
         lastDisconnect?.error instanceof Boom &&
         lastDisconnect.error.output?.statusCode !== DisconnectReason.loggedOut;
 
-      console.log("🔌 Conexión cerrada. Reconectar:", shouldReconnect);
+      console.log("ðŸ”Œ ConexiÃ³n cerrada. Reconectar:", shouldReconnect);
       if (shouldReconnect) startSock();
     } else if (connection === "open") {
-      console.log("✅ Conectado con éxito a WhatsApp.");
+      console.log("âœ… Conectado con Ã©xito a WhatsApp.");
     }
   });
 };
