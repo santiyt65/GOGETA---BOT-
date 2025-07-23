@@ -13,3 +13,10 @@ if (command === ".antipriv") {
   }
   return;
 }
+if (antiPrivado && !m.key.remoteJid.endsWith("@g.us") && !owner.includes(m.key.remoteJid)) {
+  await sock.sendMessage(m.key.remoteJid, {
+    text: "🚫 *No acepto mensajes privados.* Contacta por grupo o espera a que te agregue.",
+  });
+  await sock.updateBlockStatus(m.key.remoteJid, "block");
+  return;
+}
