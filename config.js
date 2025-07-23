@@ -1,2 +1,3 @@
-export const owner = ["1234567890"]; // Reemplaza con tu número
+export const owner = ["549XXXXXXXXXX"]; // Tu número con código de país
 export const botName = "Gogeta - Bot";
+export const configFile = "./config.json"; // Ruta al archivo persistente
