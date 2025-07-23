@@ -12,11 +12,18 @@ export async function menuCommand(sock, m) {
 ➤ .menus
   `;
 
-  // Ruta de la imagen (ajústala según tu estructura de carpetas)
-  const imagenMenu = await readFile(path.join("./media", "menu.jpg")); // Asegúrate de que este archivo exista
+  try {
+    const imagePath = path.join("./media", "menu.jpg"); // Asegúrate de que el archivo exista
+    const buffer = await readFile(imagePath);
 
-  await sock.sendMessage(m.key.remoteJid, {
-    image: imagenMenu,
-    caption: texto.trim(),
-  });
+    await sock.sendMessage(m.key.remoteJid, {
+      image: buffer,
+      caption: texto.trim(),
+    });
+  } catch (err) {
+    console.error("❌ Error al enviar el menú con imagen:", err);
+    await sock.sendMessage(m.key.remoteJid, {
+      text: texto.trim(), // Envía solo texto si hay error con la imagen
+    });
+  }
 }
