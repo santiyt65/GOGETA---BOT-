@@ -1,32 +1,45 @@
-const opciones = ["piedra", "papel", "tijera"];
+const opcionesValidas = ["piedra", "papel", "tijera"];
 
 export async function pptCommand(sock, m) {
   const body = m.message.conversation || m.message.extendedTextMessage?.text || "";
-  const jugador = body.trim().split(" ")[1]?.toLowerCase();
+  const partes = body.trim().toLowerCase().split(" ");
+  const eleccionUsuario = partes[1];
 
-  if (!opciones.includes(jugador)) {
+  // Si no eligió ninguna opción, mostramos los botones
+  if (!eleccionUsuario || !opcionesValidas.includes(eleccionUsuario)) {
+    const opciones = [
+      { buttonId: ".ppt piedra", buttonText: { displayText: "🪨 Piedra" }, type: 1 },
+      { buttonId: ".ppt papel", buttonText: { displayText: "📄 Papel" }, type: 1 },
+      { buttonId: ".ppt tijera", buttonText: { displayText: "✂️ Tijera" }, type: 1 },
+    ];
+
     await sock.sendMessage(m.key.remoteJid, {
-      text: `✊ *Juguemos Piedra, Papel o Tijera* 🖐️\n\nUsa el comando así:\n.ppt piedra\n.ppt papel\n.ppt tijera`,
+      text: "🕹️ Elige una opción para jugar *Piedra, Papel o Tijera*:",
+      buttons: opciones,
+      footer: "Gogeta - Bot",
+      headerType: 1,
     });
     return;
   }
 
-  const bot = opciones[Math.floor(Math.random() * opciones.length)];
+  // Bot elige al azar
+  const eleccionBot = opcionesValidas[Math.floor(Math.random() * 3)];
 
+  // Resultado
   let resultado = "";
-  if (jugador === bot) {
+  if (eleccionUsuario === eleccionBot) {
     resultado = "🤝 ¡Empate!";
   } else if (
-    (jugador === "piedra" && bot === "tijera") ||
-    (jugador === "papel" && bot === "piedra") ||
-    (jugador === "tijera" && bot === "papel")
+    (eleccionUsuario === "piedra" && eleccionBot === "tijera") ||
+    (eleccionUsuario === "papel" && eleccionBot === "piedra") ||
+    (eleccionUsuario === "tijera" && eleccionBot === "papel")
   ) {
     resultado = "🎉 ¡Ganaste!";
   } else {
-    resultado = "💀 ¡Perdiste!";
+    resultado = "😢 ¡Perdiste!";
   }
 
   await sock.sendMessage(m.key.remoteJid, {
-    text: `👤 Tú elegiste: *${jugador}*\n🤖 Yo elegí: *${bot}*\n\n${resultado}`,
+    text: `🪨 *Tú*: ${eleccionUsuario}\n🤖 *Bot*: ${eleccionBot}\n\n${resultado}`,
   });
 }
