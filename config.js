@@ -2,8 +2,6 @@
 
 // 🔹 Número del dueño del bot (con código de país)
 export const owner = ["54 9 260 403-5392"]; // Reemplaza con tu número real
-export const owner = ["542604035392"]; // Reemplaza con tu número real
-export const owner = ["2604035392"]; // Reemplaza con tu número real
 
 // 🔹 Nombre del bot
 export const botName = "Gogeta - Bot";
