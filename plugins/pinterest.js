@@ -1,79 +1,45 @@
-import fetch from "node-fetch";
+import fetch from 'node-fetch';
 
-export async function pinterestCommand(sock, m, texto) {
-  if (!texto) {
-    await sock.sendMessage(m.key.remoteJid, {
-      text: "❌ Escribe algo para buscar.\n\nEjemplo: .pinterest goku"
-    }, { quoted: m });
-    return;
-  }
-
-  const esperando = await sock.sendMessage(m.key.remoteJid, {
-    text: `🔄 Buscando imágenes de *${texto}*...`
-  }, { quoted: m });
-
-  let resultados = [];
-
-  // 🌐 Fuente 1: Pinterest API
+export async function pinterestCommand(sock, m, searchTerm) {
+  const chatId = m.key.remoteJid;
+  
   try {
-    const res = await fetch(`https://pinterest-api.vercel.app/api/pin?query=${encodeURIComponent(texto)}`);
-    const data = await res.json();
-    if (data?.data?.length > 0) {
-      resultados = data.data.slice(0, 5);
-    }
-  } catch (e) {
-    console.error("❌ Fuente 1 falló:", e);
-  }
+    await sock.sendMessage(chatId, { text: `🔄 Buscando imágenes de *${searchTerm}* en Pinterest...` });
 
-  // 🌐 Fuente 2: Zeks API
-  if (resultados.length === 0) {
+    const api1 = `https://pinterest-api.vercel.app/api/pins?q=${encodeURIComponent(searchTerm)}`;
+    const api2 = `https://piny.vercel.app/api/search/${encodeURIComponent(searchTerm)}`;
+
+    let results = [];
+
+    // Intenta primera API
     try {
-      const apikey = "tu_api_key_zeks"; // OPCIONAL
-      const res2 = await fetch(`https://api.zeks.xyz/pinterest?apikey=${apikey}&q=${encodeURIComponent(texto)}`);
-      const data2 = await res2.json();
-      if (data2?.status === true && data2.result) {
-        resultados = [data2.result];
-      }
-    } catch (e) {
-      console.error("❌ Fuente 2 falló:", e);
+      const res1 = await fetch(api1);
+      const json1 = await res1.json();
+      if (json1 && Array.isArray(json1)) results = json1;
+    } catch {}
+
+    // Fallback si falla la primera
+    if (results.length === 0) {
+      const res2 = await fetch(api2);
+      const json2 = await res2.json();
+      if (json2 && json2.data) results = json2.data;
     }
-  }
 
-  // ❌ Sin resultados
-  if (resultados.length === 0) {
-    await sock.sendMessage(m.key.remoteJid, {
-      text: "❌ No encontré imágenes para eso.",
-      edit: esperando.key
-    });
-    return;
-  }
+    if (!results.length) {
+      await sock.sendMessage(chatId, { text: "❌ No se encontraron imágenes." });
+      return;
+    }
 
-  // ✅ Mostrar miniaturas con botones
-  for (const [index, url] of resultados.entries()) {
-    await sock.sendMessage(m.key.remoteJid, {
-      image: { url },
-      caption: `🔍 Resultado ${index + 1} de *${texto}*`,
-      buttons: [{
-        buttonId: `.pinver ${encodeURIComponent(url)}`,
-        buttonText: { displayText: "📎 Ver imagen" },
-        type: 1
-      }],
-      headerType: 4
-    }, { quoted: m });
+    const images = results.slice(0, 5); // hasta 5 resultados
+    for (const img of images) {
+      await sock.sendMessage(chatId, {
+        image: { url: img.url || img },
+        caption: `🔍 Resultado de: *${searchTerm}*`,
+      });
+    }
+
+  } catch (e) {
+    console.error("❌ Error en pinterestCommand:", e);
+    await sock.sendMessage(m.key.remoteJid, { text: "⚠️ Ocurrió un error buscando imágenes." });
   }
 }
-
-// Comando .pinver para mostrar imagen grande
-export async function pinverCommand(sock, m, texto) {
-  if (!texto) return;
-  const url = decodeURIComponent(texto);
-  await sock.sendMessage(m.key.remoteJid, {
-    image: { url },
-    caption: `📸 Imagen desde Pinterest`
-  }, { quoted: m });
-}
-
-export const command = ["pinterest", "pin", "pinver"];
-export const tags = ["buscadores"];
-export const help = ["pinterest <texto>"];
-
