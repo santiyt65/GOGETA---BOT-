@@ -1,14 +1,21 @@
 {
   "name": "gogeta-bot",
   "version": "1.0.0",
-  "description": "Bot de WhatsApp con estructura de Mystic-Bot-MD",
+  "description": "Bot de WhatsApp basado en Baileys",
+  "main": "main.js",
   "type": "module",
-  "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node main.js"
   },
+  "keywords": ["whatsapp", "baileys", "bot", "gogeta"],
+  "author": "Santi YT",
+  "license": "MIT",
   "dependencies": {
-    "@whiskeysockets/baileys": "^6.5.0",
-    "@hapi/boom": "^10.0.1"
+    "@hapi/boom": "^10.0.1",
+    "@whiskeysockets/baileys": "^6.6.0",
+    "chalk": "^5.3.0",
+    "node-fetch": "^3.4.0",
+    "sharp": "^0.33.3",
+    "qrcode-terminal": "^0.12.0"
   }
 }
