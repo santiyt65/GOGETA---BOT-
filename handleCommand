@@ -1,0 +1,91 @@
+import { cargarPlugins } from "./loader.js"; // Asegúrate de tener este archivo
+let plugins = {};
+
+export async function handleCommand(sock, m) {
+  const body =
+    m.message?.conversation ||
+    m.message?.extendedTextMessage?.text ||
+    m.message?.imageMessage?.caption ||
+    m.message?.videoMessage?.caption ||
+    "";
+  const command = body.trim().split(" ")[0].toLowerCase();
+
+  // Cargar plugins si están vacíos
+  if (Object.keys(plugins).length === 0) {
+    plugins = await cargarPlugins();
+  }
+
+  try {
+    switch (command) {
+      case ".ping":
+        await sock.sendMessage(m.key.remoteJid, {
+          text: "✅ Pong! El bot está activo.",
+        });
+        break;
+
+      case ".infobot":
+        if (plugins.infoBotCommand) await plugins.infoBotCommand(sock, m);
+        break;
+
+      case ".infocreador":
+        if (plugins.infoCreadorCommand)
+          await plugins.infoCreadorCommand(sock, m);
+        break;
+
+      case ".menu":
+      case ".menus":
+        if (plugins.menuCommand) await plugins.menuCommand(sock, m);
+        break;
+
+      case ".menujuegos":
+        if (plugins.menuJuegosCommand) await plugins.menuJuegosCommand(sock, m);
+        break;
+
+      case ".menuadmin":
+        if (plugins.menuAdminCommand) await plugins.menuAdminCommand(sock, m);
+        break;
+
+      case ".menuimagenes":
+        if (plugins.menuImagenesCommand)
+          await plugins.menuImagenesCommand(sock, m);
+        break;
+
+      case ".ppt":
+        if (plugins.pptCommand) await plugins.pptCommand(sock, m);
+        break;
+
+      case ".adivina":
+        if (plugins.adivinaCommand) await plugins.adivinaCommand(sock, m);
+        break;
+
+      case ".ahorcado":
+        if (plugins.ahorcadoCommand) await plugins.ahorcadoCommand(sock, m);
+        break;
+
+      case ".trivia":
+        if (plugins.triviaCommand) await plugins.triviaCommand(sock, m);
+        break;
+
+      case ".matematica":
+        if (plugins.matematicaCommand) await plugins.matematicaCommand(sock, m);
+        break;
+
+      case ".pinterest":
+        if (plugins.pinterestCommand) await plugins.pinterestCommand(sock, m);
+        break;
+
+      case ".femboy":
+        if (plugins.femboyCommand) await plugins.femboyCommand(sock, m);
+        break;
+
+      default:
+        // Comando no reconocido
+        break;
+    }
+  } catch (err) {
+    console.error("❌ Error al ejecutar el comando:", err);
+    await sock.sendMessage(m.key.remoteJid, {
+      text: "❌ Ocurrió un error al ejecutar el comando.",
+    });
+  }
+}
