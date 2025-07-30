@@ -1,5 +1,14 @@
 {
   "antiPrivado": false,
-  "ultimaActualizacion": "",
-  "version": "1.0.0"
+  "ultimaActualizacion": "2025-07-28",
+  "version": "1.0.1",
+  "administradores": [
+    "123456789@s.whatsapp.net"
+  ],
+  "mensajes": {
+    "privadoBloqueado": "🚫 *No acepto mensajes privados.* Contacta por grupo o espera a que te agregue.",
+    "soloAdmins": "🚫 Este comando es solo para administradores.",
+    "soloDueño": "🚫 Solo el dueño puede usar este comando.",
+    "comandoError": "⚠️ Ocurrió un error al ejecutar el comando."
+  }
 }

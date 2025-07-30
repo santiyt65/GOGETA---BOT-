@@ -1,54 +1,58 @@
-import { makeWASocket, useMultiFileAuthState, DisconnectReason, fetchLatestBaileysVersion } from "@whiskeysockets/baileys";
+import { makeWASocket, useMultiFileAuthState, fetchLatestBaileysVersion, DisconnectReason } from "@whiskeysockets/baileys";
 import { Boom } from "@hapi/boom";
-import * as loader from "./lib/loader.js";
+import Pino from "pino";
+import makeQR from "qrcode-terminal";
 import { handleCommand } from "./lib/functions.js";
-import chalk from "chalk";
+import { cargarPlugins } from "./lib/loader.js";
+
+const logger = Pino({ level: "silent" });
 
 async function startBot() {
-  // Cargar sesión
   const { state, saveCreds } = await useMultiFileAuthState("session");
 
-  // Obtener versión más reciente de Baileys
-  const { version, isLatest } = await fetchLatestBaileysVersion();
-  console.log(chalk.blueBright(`[🤖 BOT] Usando versión Baileys:`), version, isLatest ? "(última)" : "");
+  const { version } = await fetchLatestBaileysVersion();
 
   const sock = makeWASocket({
     version,
+    logger, // Logger compatible con Baileys
     auth: state,
-    printQRInTerminal: true,
-    syncFullHistory: false,
-    generateHighQualityLinkPreview: true,
-    logger: { level: "silent" },
+    printQRInTerminal: false, // Ya no se usa automáticamente
   });
 
-  // Guardar credenciales cuando cambian
+  // Mostrar QR manualmente
+  sock.ev.on("connection.update", (update) => {
+    const { qr, connection, lastDisconnect } = update;
+
+    if (qr) {
+      makeQR.generate(qr, { small: true });
+    }
+
+    if (connection === "close") {
+      const shouldReconnect =
+        lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut;
+      if (shouldReconnect) {
+        console.log("🔄 Reconectando...");
+        startBot();
+      } else {
+        console.log("🚪 Sesión cerrada. Iniciá sesión de nuevo.");
+      }
+    } else if (connection === "open") {
+      console.log("✅ Conexión exitosa.");
+    }
+  });
+
+  // Guardar sesión automáticamente
   sock.ev.on("creds.update", saveCreds);
 
-  // Reconexión automática
-  sock.ev.on("connection.update", (update) => {
-    const { connection, lastDisconnect } = update;
-    if (connection === "close") {
-      const shouldReconnect = lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut;
-      console.log(chalk.redBright("[⚠️ Desconectado]"), shouldReconnect ? "Reconectando..." : "Sesión cerrada.");
-      if (shouldReconnect) startBot();
-    } else if (connection === "open") {
-      console.log(chalk.greenBright("[✅ Conectado correctamente]"));
-    }
-  });
+  // Carga dinámica de plugins y guardamos en variable global para handleCommand
+  const plugins = await cargarPlugins();
 
-  // Cargar plugins desde loader.js
-  await loader.cargarPlugins();
-
-  // Manejar mensajes entrantes
-  sock.ev.on("messages.upsert", async ({ messages, type }) => {
+  // Escuchar comandos y pasar plugins a handleCommand si es necesario
+  sock.ev.on("messages.upsert", async ({ messages }) => {
     const m = messages[0];
-    if (!m?.message || m.key.fromMe) return;
-
-    try {
-      await handleCommand(sock, m);
-    } catch (err) {
-      console.error(chalk.redBright("[❌ ERROR al manejar el mensaje]:\n"), err);
-    }
+    if (!m.message) return;
+    // Pasa sock, mensaje y plugins
+    await handleCommand(sock, m, plugins);
   });
 }
 

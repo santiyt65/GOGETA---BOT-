@@ -1,34 +1,17 @@
-import { readFile } from "fs/promises";
-import path from "path";
-
-export async function imagenesMenu(sock, m) {
+export async function menuImagenesCommand(sock, m) {
   const texto = `
-📷 *Comandos de Imágenes:*
+🖼️ *Menú de Imágenes:*
 
-🔍 .pinterest [nombre] – Busca imágenes desde Pinterest.
+- 🌸 .femboy
+- 🐉 .pinterest goku
+- 🎴 .anime
+- 💋 .waifu
+- 👀 .nsfw
 
-Ejemplo:
-.pinterest goku
-  `.trim();
+Disfrutá las imágenes con responsabilidad 😏
+  `;
 
-  try {
-    const imagePath = path.join("./media", "menu-imagenes.jpg");
-    const buffer = await readFile(imagePath);
-
-    await sock.sendMessage(m.key.remoteJid, {
-      image: buffer,
-      caption: texto,
-      buttons: [
-        { buttonId: ".menus", buttonText: { displayText: "🏠 Menú Principal" }, type: 1 },
-        { buttonId: ".menujuegos", buttonText: { displayText: "🎮 Juegos" }, type: 1 },
-        { buttonId: ".menuadmin", buttonText: { displayText: "⚙️ Admin" }, type: 1 },
-      ],
-      footer: "Gogeta-Bot 🔥",
-    });
-  } catch (err) {
-    console.error("❌ Error al enviar menú de imágenes:", err);
-    await sock.sendMessage(m.key.remoteJid, {
-      text: texto,
-    });
-  }
+  await sock.sendMessage(m.key.remoteJid, {
+    text: texto,
+  });
 }
