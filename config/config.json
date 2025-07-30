@@ -1,14 +1,19 @@
 {
-  "antiPrivado": false,
-  "ultimaActualizacion": "2025-07-28",
-  "version": "1.0.1",
-  "administradores": [
-    "123456789@s.whatsapp.net"
-  ],
-  "mensajes": {
-    "privadoBloqueado": "🚫 *No acepto mensajes privados.* Contacta por grupo o espera a que te agregue.",
-    "soloAdmins": "🚫 Este comando es solo para administradores.",
-    "soloDueño": "🚫 Solo el dueño puede usar este comando.",
-    "comandoError": "⚠️ Ocurrió un error al ejecutar el comando."
+  "name": "whatsapp-bot",
+  "version": "1.0.0",
+  "description": "Bot de WhatsApp con Baileys",
+  "type": "module",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "^6.7.18",
+    "@hapi/boom": "^10.0.1",
+    "chalk": "^5.3.0",
+    "node-fetch": "^2.6.11",
+    "pino": "^8.16.0",
+    "qrcode-terminal": "^0.12.0",
+    "sharp": "0.32.6"
   }
 }
