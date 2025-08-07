@@ -2,7 +2,8 @@ import { getUser, saveUser } from '../lib/database.js';
 import charactersData from '../data/characters.json' assert { type: 'json' };
 
 import { checkAchievements } from '../lib/achievements.js';
-import { checkLevelUp, addXP } from '../lib/leveling.js';const COOLDOWN = 60 * 60 * 1000; // 1 hora en milisegundos
+import { checkLevelUp, addXP } from '../lib/leveling.js';
+const COOLDOWN = 60 * 60 * 1000; // 1 hora en milisegundos
 
 function getWeightedRandomCharacter() {
     const rarities = {
