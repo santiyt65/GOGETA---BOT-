@@ -32,7 +32,7 @@
 <div align="center">
   <!-- Reemplaza la URL de abajo con el enlace a tu imagen -->
   <img src=https://i.postimg.cc/xCz6TTbZ/Polish-20250807-144544105.jpg"" alt="Vista Previa del Bot" width="300"/>
-  <p><i>Aquí puedes mostrar cómo se ve el bot en acción.</i></p>
+  <p><i>Aquí puedes ver cómo se ve el bot en acción.</i></p>
 </div>
 
 
