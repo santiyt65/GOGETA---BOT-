@@ -1,59 +1,54 @@
-import { makeWASocket, useMultiFileAuthState, fetchLatestBaileysVersion, DisconnectReason } from "@whiskeysockets/baileys";
-import { Boom } from "@hapi/boom";
-import Pino from "pino";
-import makeQR from "qrcode-terminal";
-import { handleCommand } from "./lib/functions.js";
-import { cargarPlugins } from "./lib/loader.js";
+// main.js
+import { makeWASocket, useMultiFileAuthState, fetchLatestBaileysVersion } from '@whiskeysockets/baileys';
+import makeQR from 'qrcode-terminal';
+import { handleCommand } from './lib/functions.js'; // Asegurate de tener esta función
+import { loadPlugins } from './lib/loader.js';      // Tu loader de plugins
+let plugins = {}; // Aquí almacenaremos los plugins cargados
 
-const logger = Pino({ level: "silent" });
-
-async function startBot() {
-  const { state, saveCreds } = await useMultiFileAuthState("session");
-
+const startSock = async () => {
   const { version } = await fetchLatestBaileysVersion();
+  const { state, saveCreds } = await useMultiFileAuthState('./session');
 
   const sock = makeWASocket({
     version,
-    logger, // Logger compatible con Baileys
     auth: state,
-    printQRInTerminal: false, // Ya no se usa automáticamente
+    logger: undefined
   });
 
-  // Mostrar QR manualmente
-  sock.ev.on("connection.update", (update) => {
-    const { qr, connection, lastDisconnect } = update;
+  // Mostrar el QR manualmente
+  sock.ev.on('connection.update', (update) => {
+    const { connection, lastDisconnect, qr } = update;
 
     if (qr) {
+      console.log('📱 Escaneá el código QR para iniciar sesión:');
       makeQR.generate(qr, { small: true });
     }
 
-    if (connection === "close") {
-      const shouldReconnect =
-        lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut;
-      if (shouldReconnect) {
-        console.log("🔄 Reconectando...");
-        startBot();
-      } else {
-        console.log("🚪 Sesión cerrada. Iniciá sesión de nuevo.");
-      }
-    } else if (connection === "open") {
-      console.log("✅ Conexión exitosa.");
+    if (connection === 'open') {
+      console.log('✅ Bot conectado con éxito');
+    } else if (connection === 'close') {
+      console.log('❌ Conexión cerrada. Reconectando...');
+      startSock();
     }
   });
 
-  // Guardar sesión automáticamente
-  sock.ev.on("creds.update", saveCreds);
+  // Guardar credenciales
+  sock.ev.on('creds.update', saveCreds);
 
-  // Carga dinámica de plugins y guardamos en variable global para handleCommand
-  const plugins = await cargarPlugins();
+  // Cargar plugins
+  plugins = await loadPlugins();
 
-  // Escuchar comandos y pasar plugins a handleCommand si es necesario
-  sock.ev.on("messages.upsert", async ({ messages }) => {
+  // Manejar comandos entrantes
+  sock.ev.on('messages.upsert', async ({ messages }) => {
+    if (!messages || !messages[0]?.message) return;
+
     const m = messages[0];
-    if (!m.message) return;
-    // Pasa sock, mensaje y plugins
-    await handleCommand(sock, m, plugins);
+    try {
+      await handleCommand(sock, m);
+    } catch (err) {
+      console.error('❌ Error al manejar comando:', err);
+    }
   });
-}
+};
 
-startBot();
+startSock();
