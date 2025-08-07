@@ -1,43 +1,43 @@
-// plugins/ppt.js
-export async function pptCommand(sock, m, command) {
-  // Si el comando es .ppt solo muestra los botones para elegir
-  if (command === ".ppt") {
+export default async function (sock, m) {
+    const jid = m.key.remoteJid;
+    const buttonId = m.message?.buttonsResponseMessage?.selectedButtonId;
+    const opciones = ["piedra", "papel", "tijera"];
+
+    // --- Manejar la respuesta de un botón ---
+    if (buttonId && opciones.includes(buttonId)) {
+        const eleccionUsuario = buttonId;
+        const eleccionBot = opciones[Math.floor(Math.random() * opciones.length)];
+        let resultado = "";
+
+        if (eleccionUsuario === eleccionBot) {
+            resultado = "🤝 ¡Empate!";
+        } else if (
+            (eleccionUsuario === "piedra" && eleccionBot === "tijera") ||
+            (eleccionUsuario === "papel" && eleccionBot === "piedra") ||
+            (eleccionUsuario === "tijera" && eleccionBot === "papel")
+        ) {
+            resultado = "🎉 ¡Ganaste!";
+        } else {
+            resultado = "😢 ¡Perdiste!";
+        }
+
+        await sock.sendMessage(jid, {
+            text: `Tu elegiste: *${eleccionUsuario}*\nYo elegí: *${eleccionBot}*\n\n${resultado}`
+        });
+        return;
+    }
+
+    // --- Iniciar una nueva partida ---
     const buttons = [
       { buttonId: "piedra", buttonText: { displayText: "✊ Piedra" }, type: 1 },
       { buttonId: "papel", buttonText: { displayText: "✋ Papel" }, type: 1 },
       { buttonId: "tijera", buttonText: { displayText: "✌️ Tijera" }, type: 1 },
     ];
 
-    await sock.sendMessage(m.key.remoteJid, {
+    await sock.sendMessage(jid, {
       text: "🎮 *Piedra, Papel o Tijera*\nElige una opción:",
       buttons,
-      footer: "🔥 Gogeta - Bot 🔥",
-      headerType: 1,
+      footer: "🔥 Gogeta - Bot 🔥"
     });
-    return;
-  }
-
-  // Si el comando es piedra, papel o tijera, resolvemos el juego
-  if (["piedra", "papel", "tijera"].includes(command)) {
-    const opciones = ["piedra", "papel", "tijera"];
-    const eleccionBot = opciones[Math.floor(Math.random() * opciones.length)];
-
-    let resultado = "";
-
-    if (command === eleccionBot) {
-      resultado = "🤝 Empate!";
-    } else if (
-      (command === "piedra" && eleccionBot === "tijera") ||
-      (command === "papel" && eleccionBot === "piedra") ||
-      (command === "tijera" && eleccionBot === "papel")
-    ) {
-      resultado = "🎉 ¡Ganaste!";
-    } else {
-      resultado = "😢 Perdiste!";
-    }
-
-    await sock.sendMessage(m.key.remoteJid, {
-      text: `Tu eliges: *${command}*\nYo elijo: *${eleccionBot}*\n\n${resultado}`,
-    });
-  }
 }
+

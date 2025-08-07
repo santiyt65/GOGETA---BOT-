@@ -1,4 +1,4 @@
-export async function menuAdminCommand(sock, m) {
+export default async function (sock, m) {
   const texto = `
 🛠️ *Menú de Administración:*
   

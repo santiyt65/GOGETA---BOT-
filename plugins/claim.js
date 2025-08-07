@@ -1,8 +1,14 @@
 import { getUser, saveUser } from '../lib/database.js';
-import charactersData from '../data/characters.json' assert { type: 'json' };
-
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { checkAchievements } from '../lib/achievements.js';
 import { checkLevelUp, addXP } from '../lib/leveling.js';
+
+// Use fs.readFileSync for robust JSON loading, avoiding import syntax issues.
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const charactersData = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'characters.json')));
+
 const COOLDOWN = 60 * 60 * 1000; // 1 hora en milisegundos
 
 function getWeightedRandomCharacter() {

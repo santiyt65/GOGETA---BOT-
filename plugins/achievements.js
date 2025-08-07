@@ -12,7 +12,9 @@ export default async function (sock, m) {
     let achievementsText = "🏆 *Tus Logros* 🏆\n\n";
     user.achievements.forEach(achievementId => {
         const achievement = achievementsData[achievementId];
-        achievementsText += `*${achievementId}*: ${achievement.description}\n`;
+        if (achievement) {
+            achievementsText += `*${achievementId.replace(/_/g, ' ')}*: ${achievement.description}\n`;
+        }
     });
 
     await sock.sendMessage(m.key.remoteJid, {

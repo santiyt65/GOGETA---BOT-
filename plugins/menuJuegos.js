@@ -1,4 +1,4 @@
-export async function menuJuegosCommand(sock, m) {
+export default async function (sock, m) {
   const texto = `
 🎮 *Menú de Juegos:*
 
