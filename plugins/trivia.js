@@ -1,4 +1,5 @@
 // plugins/trivia.js
+import { addXP, checkLevelUp } from '../lib/leveling.js';
 
 const preguntas = [
   {
@@ -21,51 +22,51 @@ const preguntas = [
 
 const usuariosJugando = {}; // Para llevar control de quién está jugando
 
-export async function triviaCommand(sock, m) {
-  const jid = m.key.remoteJid;
-  const sender = m.key.participant || m.key.remoteJid;
+export default async function (sock, m) {
+    const jid = m.key.remoteJid;
+    const sender = m.key.participant || m.key.remoteJid;
+    const buttonId = m.message?.buttonsResponseMessage?.selectedButtonId;
 
-  // Si el usuario ya está jugando, no permitir otra partida
-  if (usuariosJugando[sender]) {
+    // --- Manejar la respuesta de un botón ---
+    if (buttonId && buttonId.startsWith("trivia_")) {
+        if (!usuariosJugando[sender]) return; // Ignorar si el usuario no está jugando
+
+        const respuestaUsuario = buttonId.replace("trivia_", "");
+        const correcta = usuariosJugando[sender].respuestaCorrecta;
+        delete usuariosJugando[sender]; // Limpiar estado del jugador
+
+        if (respuestaUsuario === correcta) {
+            await sock.sendMessage(jid, { text: `✅ ¡Correcto! La respuesta era *${correcta}*.` });
+            addXP(sender, 75);
+            await checkLevelUp(sock, sender);
+        } else {
+            await sock.sendMessage(jid, { text: `❌ Incorrecto. La respuesta correcta era *${correcta}*.` });
+        }
+        return;
+    }
+
+    // --- Iniciar una nueva partida ---
+    if (usuariosJugando[sender]) {
+        return await sock.sendMessage(jid, {
+            text: "⚠️ Ya tienes una pregunta activa. Responde primero antes de comenzar otra.",
+        });
+    }
+
+    const preguntaAleatoria = preguntas[Math.floor(Math.random() * preguntas.length)];
+    usuariosJugando[sender] = {
+        respuestaCorrecta: preguntaAleatoria.respuesta,
+    };
+
+    const botones = preguntaAleatoria.opciones.map((opcion) => ({
+        buttonId: `trivia_${opcion}`,
+        buttonText: { displayText: opcion },
+        type: 1
+    }));
+
     await sock.sendMessage(jid, {
-      text: "⚠️ Ya tienes una pregunta activa. Responde primero antes de comenzar otra.",
+        text: `🧠 *Trivia:*\n\n${preguntaAleatoria.pregunta}`,
+        buttons: botones,
+        footer: "Selecciona una respuesta:",
+        headerType: 1
     });
-    return;
-  }
-
-  const preguntaAleatoria = preguntas[Math.floor(Math.random() * preguntas.length)];
-  usuariosJugando[sender] = {
-    respuestaCorrecta: preguntaAleatoria.respuesta,
-  };
-
-  const botones = preguntaAleatoria.opciones.map((opcion, index) => ({
-    buttonId: `trivia_${opcion}`,
-    buttonText: { displayText: opcion },
-    type: 1
-  }));
-
-  await sock.sendMessage(jid, {
-    text: `🧠 *Trivia:*\n\n${preguntaAleatoria.pregunta}`,
-    buttons: botones,
-    footer: "Selecciona una respuesta:",
-    headerType: 1
-  });
-}
-
-// Para manejar la respuesta de los botones
-export async function handleTriviaResponse(sock, m) {
-  const sender = m.key.participant || m.key.remoteJid;
-  const selected = m.message?.buttonsResponseMessage?.selectedButtonId;
-
-  if (!selected || !selected.startsWith("trivia_") || !usuariosJugando[sender]) return;
-
-  const respuestaUsuario = selected.replace("trivia_", "");
-  const correcta = usuariosJugando[sender].respuestaCorrecta;
-  delete usuariosJugando[sender]; // Elimina el estado del jugador
-
-  if (respuestaUsuario === correcta) {
-    await sock.sendMessage(m.key.remoteJid, { text: `✅ ¡Correcto! La respuesta era *${correcta}*.` });
-  } else {
-    await sock.sendMessage(m.key.remoteJid, { text: `❌ Incorrecto. La respuesta correcta era *${correcta}*.` });
-  }
 }

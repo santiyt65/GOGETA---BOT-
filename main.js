@@ -44,7 +44,7 @@ const startSock = async () => {
 
     const m = messages[0];
     try {
-      await handleCommand(sock, m);
+      await handleCommand(sock, m, plugins);
     } catch (err) {
       console.error('❌ Error al manejar comando:', err);
     }

@@ -1,36 +1,18 @@
-import config from "../config/config.json" assert { type: "json" };
-import { guardarConfig } from "../lib/functions.js";
-import { owner } from "../config/config.json";
+import { config, saveConfig } from "../lib/functions.js";
+import { owner } from "../config.js";
 
-export async function antiprivCommand(sock, m) {
-  const command = m.message?.conversation || m.message?.extendedTextMessage?.text || "";
-  const from = m.key.remoteJid;
-  const sender = m.key.participant || from;
+export default async function (sock, m) {
+  const sender = m.key.participant || m.key.remoteJid;
+  const isOwner = owner.some(o => sender.startsWith(o.replace(/[\s-]/g, '')));
 
-  if (command.trim().toLowerCase() === ".antipriv") {
-    const isOwner = owner.includes(sender) || owner.includes(from);
-
-    if (isOwner) {
-      config.antiPrivado = !config.antiPrivado;
-      guardarConfig();
-
-      const estado = config.antiPrivado ? "activado ✅" : "desactivado ❌";
-      await sock.sendMessage(from, { text: `🛡️ AntiPriv ha sido *${estado}*` });
-    } else {
-      await sock.sendMessage(from, { text: "🚫 Solo el dueño puede usar este comando." });
-    }
-    return;
+  if (!isOwner) {
+    return await sock.sendMessage(m.key.remoteJid, { text: "🚫 Solo el dueño puede usar este comando." });
   }
 
-  // Bloquear privados si está activado y no es grupo ni dueño
-  if (
-    config.antiPrivado &&
-    !from.endsWith("@g.us") &&
-    !owner.includes(from)
-  ) {
-    await sock.sendMessage(from, {
-      text: "🚫 *No acepto mensajes privados.* Contacta por grupo o espera a que te agregue.",
-    });
-    await sock.updateBlockStatus(from, "block");
-  }
+  // Cambiar el estado
+  config.antiPrivado = !config.antiPrivado;
+  saveConfig(); // Guardar la nueva configuración
+
+  const estado = config.antiPrivado ? "activado ✅" : "desactivado ❌";
+  await sock.sendMessage(m.key.remoteJid, { text: `🛡️ La función Anti-Privado ha sido *${estado}*.` });
 }

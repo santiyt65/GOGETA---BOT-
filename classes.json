@@ -1,0 +1,25 @@
+{
+  "Luchador": {
+    "description": "Expertos en combate. Obtienen un 10% más de valor al vender sus personajes.",
+    "bonus": {
+      "type": "SELL_VALUE_INCREASE",
+      "value": 0.10
+    }
+  },
+  "Mago": {
+    "description": "Maestros de lo arcano. Aumentan ligeramente la probabilidad de encontrar personajes de mayor rareza.",
+    "bonus": {
+      "type": "RARE_FIND_CHANCE",
+      "value": 0.05
+    }
+  },
+  "Tanque": {
+    "description": "Resistentes y duraderos. Ofrecen protección y bonus en futuros duelos.",
+    "bonus": null
+  },
+  "Asesino": {
+    "description": "Rápidos y letales. Ganan más experiencia en futuros duelos.",
+    "bonus": null
+  }
+}
+

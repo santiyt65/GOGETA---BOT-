@@ -1,4 +1,4 @@
-export async function femboyCommand(sock, m) {
+export default async function (sock, m) {
   const groupMetadata = m.key.remoteJid.endsWith("@g.us")
     ? await sock.groupMetadata(m.key.remoteJid)
     : null;

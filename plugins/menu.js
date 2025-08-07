@@ -1,12 +1,12 @@
 import { readFile } from "fs/promises";
 import path from "path";
 
-export async function menuCommand(sock, m) {
+export default async function (sock, m) {
   const texto = `
 🔥 *Gogeta-Bot* 🔥
 
-📌 *Menú Principal de Comandos:*
-
+📌 *Comandos Principales:*
+➤ .profile [@usuario]
 ➤ .infobot  
 ➤ .infocreador  
 ➤ .menus
@@ -23,6 +23,7 @@ export async function menuCommand(sock, m) {
         { buttonId: ".menujuegos", buttonText: { displayText: "🎮 Juegos" }, type: 1 },
         { buttonId: ".menuimagenes", buttonText: { displayText: "🖼️ Imágenes" }, type: 1 },
         { buttonId: ".menuadmin", buttonText: { displayText: "⚙️ Admin" }, type: 1 },
+        { buttonId: ".menugacha", buttonText: { displayText: "⛩️ Gacha" }, type: 1 },
       ],
       footer: "Selecciona una categoría 👇",
     });
