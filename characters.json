@@ -1,22 +1,24 @@
 {
   "Common": [
-    { "name": "Sakura Haruno", "value": 50, "image": "https://i.pinimg.com/originals/d8/a7/1a/d8a71a39f52c585015593c55de5c4721.jpg" },
-    { "name": "Krillin", "value": 55, "image": "https://i.pinimg.com/originals/1b/9c/8b/1b9c8b94774737a5b314506b3f8a48c3.jpg" }
+    { "name": "Sakura Haruno", "value": 50, "image": "https://i.pinimg.com/originals/d8/a7/1a/d8a71a39f52c585015593c55de5c4721.jpg", "class": "Mago" },
+    { "name": "Krillin", "value": 55, "image": "https://i.pinimg.com/originals/1b/9c/8b/1b9c8b94774737a5b314506b3f8a48c3.jpg", "class": "Luchador" }
   ],
   "Uncommon": [
-    { "name": "Zoro Roronoa", "value": 150, "image": "https://i.pinimg.com/originals/01/a3/e1/01a3e1a74c4d6387398ed43f455214e2.jpg" },
-    { "name": "Nezuko Kamado", "value": 160, "image": "https://i.pinimg.com/originals/ee/34/97/ee3497295a549557b54c1e0615a157d2.jpg" }
+    { "name": "Zoro Roronoa", "value": 150, "image": "https://i.pinimg.com/originals/01/a3/e1/01a3e1a74c4d6387398ed43f455214e2.jpg", "class": "Luchador" },
+    { "name": "Nezuko Kamado", "value": 160, "image": "https://i.pinimg.com/originals/ee/34/97/ee3497295a549557b54c1e0615a157d2.jpg", "class": "Asesino" }
   ],
   "Rare": [
-    { "name": "Levi Ackerman", "value": 400, "image": "https://i.pinimg.com/originals/cf/63/8f/cf638f4a29e4b5c13ab5894303f9723c.jpg" },
-    { "name": "Kakashi Hatake", "value": 450, "image": "https://i.pinimg.com/originals/3a/a8/6a/3aa86a3a8a8a8a8a8a8a8a8a8a8a8a8a.jpg" }
+    { "name": "Levi Ackerman", "value": 400, "image": "https://i.pinimg.com/originals/cf/63/8f/cf638f4a29e4b5c13ab5894303f9723c.jpg", "class": "Asesino" },
+    { "name": "Kakashi Hatake", "value": 450, "image": "https://i.pinimg.com/originals/3a/a8/6a/3aa86a3a8a8a8a8a8a8a8a8a8a8a8a8a.jpg", "class": "Mago" }
   ],
   "Epic": [
-    { "name": "Satoru Gojo", "value": 1200, "image": "https://i.pinimg.com/originals/4a/29/37/4a2937c9a3b8a4d3b7a5b5b5b5b5b5b5.jpg" },
-    { "name": "Itachi Uchiha", "value": 1350, "image": "https://i.pinimg.com/originals/0c/a8/3a/0ca83a3a8a8a8a8a8a8a8a8a8a8a8a8a.jpg" }
+    { "name": "Satoru Gojo", "value": 1200, "image": "https://i.pinimg.com/originals/4a/29/37/4a2937c9a3b8a4d3b7a5b5b5b5b5b5b5.jpg", "class": "Mago" },
+    { "name": "Itachi Uchiha", "value": 1350, "image": "https://i.pinimg.com/originals/0c/a8/3a/0ca83a3a8a8a8a8a8a8a8a8a8a8a8a8a.jpg", "class": "Asesino" }
   ],
   "Legendary": [
-    { "name": "Goku Ultra Instinto", "value": 5000, "image": "https://i.pinimg.com/originals/5d/b9/3e/5db93e0c0b9b9b9b9b9b9b9b9b9b9b9b.jpg" },
-    { "name": "Saitama", "value": 5500, "image": "https://i.pinimg.com/originals/9e/8a/8a/9e8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a.jpg" }
+    { "name": "Goku Ultra Instinto", "value": 5000, "image": "https://i.pinimg.com/originals/5d/b9/3e/5db93e0c0b9b9b9b9b9b9b9b9b9b9b9b.jpg", "class": "Luchador" },
+    { "name": "Saitama", "value": 5500, "image": "https://i.pinimg.com/originals/9e/8a/8a/9e8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a.jpg", "class": "Tanque" }
   ]
 }
+
+

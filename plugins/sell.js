@@ -1,7 +1,7 @@
 import { getUser, saveUser } from '../lib/database.js';
 import { checkAchievements } from '../lib/achievements.js';
 import { addXP, checkLevelUp } from '../lib/leveling.js';
-import classData from '../data/classes.json' assert { type: 'json' };
+import classData from '../classes.json' assert { type: 'json' };
 
 const VENTA_MINIMA_PARA_LOGRO = 5;
 
