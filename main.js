@@ -1,5 +1,6 @@
 // main.js
 import { makeWASocket, useMultiFileAuthState, fetchLatestBaileysVersion } from '@whiskeysockets/baileys';
+import pino from 'pino';
 import makeQR from 'qrcode-terminal';
 import { handleCommand } from './lib/functions.js'; // Asegurate de tener esta función
 import { loadPlugins } from './lib/loader.js';      // Tu loader de plugins
@@ -9,10 +10,13 @@ const startSock = async () => {
   const { version } = await fetchLatestBaileysVersion();
   const { state, saveCreds } = await useMultiFileAuthState('./session');
 
+  // Crea una instancia de logger. Cambia a 'info' para ver más detalles.
+  const logger = pino({ level: 'silent' });
+
   const sock = makeWASocket({
     version,
     auth: state,
-    logger: undefined
+    logger
   });
 
   // Mostrar el QR manualmente
