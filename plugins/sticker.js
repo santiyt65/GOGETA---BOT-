@@ -1,18 +1,31 @@
 import { downloadMediaMessage } from '@whiskeysockets/baileys';
 
 export default async function (sock, m) {
-    const message = m.message;
-    const messageType = Object.keys(message)[0];
+    // The message object that contains the media.
+    // It can be the current message 'm' or the message it's replying to.
+    let messageToProcess = m;
 
-    const isQuotedImage = messageType === 'extendedTextMessage' && message.extendedTextMessage.contextInfo?.quotedMessage?.imageMessage;
-    const isQuotedVideo = messageType === 'extendedTextMessage' && message.extendedTextMessage.contextInfo?.quotedMessage?.videoMessage;
+    // Check if the message is a reply (extendedTextMessage) and has a quoted message.
+    const quotedMessage = m.message?.extendedTextMessage?.contextInfo?.quotedMessage;
+    if (quotedMessage) {
+        // If it's a reply, we need to build a temporary WAMessage object
+        // for the quoted message to pass to downloadMediaMessage.
+        messageToProcess = {
+            key: {
+                remoteJid: m.key.remoteJid,
+                id: m.message.extendedTextMessage.contextInfo.stanzaId,
+                participant: m.message.extendedTextMessage.contextInfo.participant,
+            },
+            message: quotedMessage
+        };
+    }
 
-    const targetMessage = isQuotedImage || isQuotedVideo 
-        ? message.extendedTextMessage.contextInfo.quotedMessage 
-        : message;
+    // Extract the actual media message (image or video) from the message to process.
+    const mediaContent = messageToProcess.message?.imageMessage || messageToProcess.message?.videoMessage;
 
-    if (targetMessage.imageMessage || targetMessage.videoMessage) {
-        if (targetMessage.videoMessage && targetMessage.videoMessage.seconds > 10) {
+    if (mediaContent) {
+        // Check video duration
+        if (mediaContent.seconds && mediaContent.seconds > 10) {
             return await sock.sendMessage(m.key.remoteJid, { text: "❌ El video es muy largo para un sticker. Máximo 10 segundos." });
         }
 
