@@ -31,7 +31,7 @@
 
 <div align="center">
   <!-- Reemplaza la URL de abajo con el enlace a tu imagen -->
-  <img src=https://i.postimg.cc/xCz6TTbZ/Polish-20250807-144544105.jpg"" alt="Vista Previa del Bot" width="300"/>
+  <img src="https://i.postimg.cc/xCz6TTbZ/Polish-20250807-144544105.jpg" alt="Vista Previa del Bot" width="300"/>
   <p><i>Aquí puedes ver cómo se ve el bot en acción.</i></p>
 </div>
 
@@ -50,8 +50,8 @@ Sigue estos pasos para tener tu propia instancia de Gogeta Bot funcionando en mi
 #### **2. Instalación**
 
 ```bash
-# 1. Clona el repositorio en tu máquina
-git clone <URL_del_repositorio>
+# 1. Clona este repositorio en tu máquina
+git clone https://github.com/NICOLAS-SANILO/GOGETA---BOT.git
 
 # 2. Navega al directorio del proyecto
 cd Gogeta-Bot
@@ -80,11 +80,14 @@ node index.js
 
 El prefijo para usar los comandos es: `.`
 
-| Comando | Descripción                               |
-| :------ | :---------------------------------------- |
-| `.ping`   | Mide la latencia y velocidad del bot.     |
-| `.menu`   | Muestra este menú de comandos.            |
-| `.info`   | Proporciona información sobre el bot.     |
+**🤖 Comandos Generales**
+- `.menu`: Muestra este menú de comandos.
+- `.ping`: Mide la latencia y velocidad del bot.
+- `.info`: Proporciona información sobre el bot.
+
+**🎉 Comandos de Diversión**
+- `.sticker`: Convierte una imagen/video en sticker.
+- `.claim`: Reclama un personaje (juego).
 
 ---
 

@@ -1,36 +1,18 @@
-import { readFile } from "fs/promises";
-import path from "path";
+import { generateMenuText } from '../lib/menu.js';
 
-export default async function (sock, m) {
-  const texto = `
-🔥 *Gogeta-Bot* 🔥
+/**
+ * Manejador para el comando .menu
+ * @type {import('../lib/functions.js').CommandHandler}
+ */
+const handler = async (sock, m, { command }) => {
+  // Asegurarse de que solo se active con el comando 'menu'
+  if (command !== 'menu') return;
 
-📌 *Comandos Principales:*
-➤ .profile [@usuario]
-➤ .infobot  
-➤ .infocreador  
-➤ .menus
-  `.trim();
+  const menuText = generateMenuText();
+  await sock.sendMessage(m.key.remoteJid, { text: menuText }, { quoted: m });
+};
 
-  try {
-    const imagePath = path.join("./media", "menu.jpg"); // Imagen principal del menú
-    const buffer = await readFile(imagePath);
+handler.command = 'menu';
+handler.help = 'Muestra el menú de comandos unificado.';
 
-    await sock.sendMessage(m.key.remoteJid, {
-      image: buffer,
-      caption: texto,
-      buttons: [
-        { buttonId: ".menujuegos", buttonText: { displayText: "🎮 Juegos" }, type: 1 },
-        { buttonId: ".menuimagenes", buttonText: { displayText: "🖼️ Imágenes" }, type: 1 },
-        { buttonId: ".menuadmin", buttonText: { displayText: "⚙️ Admin" }, type: 1 },
-        { buttonId: ".menugacha", buttonText: { displayText: "⛩️ Gacha" }, type: 1 },
-      ],
-      footer: "Selecciona una categoría 👇",
-    });
-  } catch (err) {
-    console.error("❌ Error al enviar el menú principal:", err);
-    await sock.sendMessage(m.key.remoteJid, {
-      text: texto,
-    });
-  }
-}
+export default handler;
