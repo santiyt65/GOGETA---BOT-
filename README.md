@@ -82,12 +82,50 @@ El prefijo para usar los comandos es: `.`
 
 **🤖 Comandos Generales**
 - `.menu`: Muestra este menú de comandos.
+- `.register <nombre> <edad>`: Te registra en el bot.
 - `.ping`: Mide la latencia y velocidad del bot.
 - `.info`: Proporciona información sobre el bot.
+- `.profile [@usuario]`: Muestra el perfil de un usuario.
+
+**⛩️ Gacha & Economía**
+- `.daily`: Reclama tu recompensa diaria.
+- `.claim`: Reclama un personaje aleatorio.
+- `.balance`: Muestra tu balance de monedas.
+- `.collection`: Muestra tu colección de personajes.
+- `.sell <nº>`: Vende un personaje de tu colección.
+- `.gift @usuario <nº>`: Regala un personaje a otro usuario.
+- `.top`: Muestra el ranking de los más ricos.
+- `.achievements`: Muestra tus logros desbloqueados.
+
+**🔄 Intercambios & Mercado**
+- `.trade @usuario <tu_nº> <su_nº>`: Propone un intercambio.
+- `.trade accept | reject`: Acepta o rechaza un intercambio.
+- `.market`: Muestra los personajes en venta.
+- `.market sell <nº> <precio>`: Vende un personaje en el mercado.
+- `.market buy <ID>`: Compra un personaje del mercado.
+- `.market remove <ID>`: Retira tu personaje del mercado.
+
+**🎮 Juegos**
+- `.ppt`: Juega Piedra, Papel o Tijera.
+- `.adivina`: Adivina el número que estoy pensando.
+- `.trivia`: Responde una pregunta de trivia.
+- `.matematica`: Resuelve un problema matemático.
+- `.ahorcado`: Juega al ahorcado.
 
 **🎉 Comandos de Diversión**
 - `.sticker`: Convierte una imagen/video en sticker.
-- `.claim`: Reclama un personaje (juego).
+- `.formarpareja`: Forma parejas aleatorias en el grupo.
+- `.femboy`: Elige al femboy del grupo.
+- `.meme`: Envía un meme al azar.
+- `.pinterest <búsqueda>`: Busca imágenes en Pinterest.
+
+**📥 Descargas**
+- `.ytmp3 <búsqueda/url>`: Descarga el audio de un video de YouTube.
+- `.ytmp4 <búsqueda/url>`: Descarga un video de YouTube.
+
+**🛠️ Administración (Solo Admins)**
+- `.tag`: Menciona a todos en el grupo.
+- `.antipriv`: Activa/desactiva el anti-privado (Solo Owner).
 
 ---
 
