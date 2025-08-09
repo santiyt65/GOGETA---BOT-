@@ -2,10 +2,10 @@
   "name": "gogeta-bot",
   "version": "1.0.0",
   "description": "Bot de WhatsApp basado en Baileys",
-  "main": "main.js",
+  "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node main.js"
+    "start": "node index.js"
   },
   "engines": {
     "node": "20.x"

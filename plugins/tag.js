@@ -1,4 +1,5 @@
 // plugins/tag.js
+import { isAdmin } from '../lib/functions.js';
 
 export default async function (sock, m) {
     const jid = m.key.remoteJid;
