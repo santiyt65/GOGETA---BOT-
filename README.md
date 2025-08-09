@@ -67,7 +67,7 @@ npm install
 npm start
 
 # O alternativamente
-node main.js
+node index.js
 ```
 > Al ejecutar el comando, aparecerá un **código QR** en tu terminal.
 
@@ -142,17 +142,21 @@ El prefijo para usar los comandos es: `.`
 
 **🎉 Comandos de Diversión**
 - `.sticker`: Convierte una imagen/video en sticker.
-- `.formarpareja`: Forma parejas aleatorias en el grupo.
-- `.femboy`: Elige al femboy del grupo.
-- `.meme`: Envía un meme al azar.
+- `.ship @user1 @user2`: Calcula la compatibilidad de amor.
+- `.gay [@usuario]`: Mide el nivel de homosexualidad.
 - `.pinterest <búsqueda>`: Busca imágenes en Pinterest.
 
 **📥 Descargas**
 - `.ytmp3 <búsqueda/url>`: Descarga el audio de un video de YouTube.
 - `.ytmp4 <búsqueda/url>`: Descarga un video de YouTube.
+- `.instagram <url>`: Descarga un video o imagen de Instagram.
+- `.tiktok <url>`: Descarga un video de TikTok sin marca de agua.
 
 **🛠️ Administración (Solo Admins)**
 - `.tag`: Menciona a todos en el grupo.
+- `.ban @usuario`: Expulsa a un usuario del grupo.
+- `.promote @usuario`: Hace administrador a un usuario.
+- `.demote @usuario`: Quita el admin a un usuario.
 - `.antipriv`: Activa/desactiva el anti-privado (Solo Owner).
 
 ---
