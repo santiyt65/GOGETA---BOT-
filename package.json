@@ -7,6 +7,9 @@
   "scripts": {
     "start": "node main.js"
   },
+  "engines": {
+    "node": "20.x"
+  },
   "keywords": ["whatsapp", "baileys", "bot", "gogeta"],
   "author": "Santi YT",
   "license": "MIT",

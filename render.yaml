@@ -6,11 +6,13 @@ services:
   - type: web
     name: gogeta-bot
     env: node
-    # Render detectará package.json y ejecutará 'npm install' automáticamente.
-    # Este comando es explícito para mayor claridad.
+    plan: free # Especificar el plan gratuito
     buildCommand: "npm install"
-    # Comando para iniciar el bot, definido en package.json
     startCommand: "npm start"
+    # Variables de entorno para asegurar la versión correcta de Node.js
+    envVars:
+      - key: NODE_VERSION
+        value: 20 # Usamos la versión 20, que es moderna y estable
     # Discos persistentes para guardar la sesión y los datos
     disks:
       - name: gogeta-session
