@@ -4,10 +4,9 @@ import { generateMenuText } from '../lib/menu.js';
  * Manejador para el comando .menu
  * @type {import('../lib/functions.js').CommandHandler}
  */
-const handler = async (sock, m, { command }) => {
-  // Asegurarse de que solo se active con el comando 'menu'
-  if (command !== 'menu') return;
-
+const handler = async (sock, m, args) => {
+  // La comprobación del comando ya la hace el manejador principal (handleCommand),
+  // por lo que no es necesaria aquí.
   const menuText = generateMenuText();
   await sock.sendMessage(m.key.remoteJid, { text: menuText }, { quoted: m });
 };
