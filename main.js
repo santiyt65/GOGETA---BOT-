@@ -1,4 +1,5 @@
 // main.js
+import './server.js'; // Importa e inicia el servidor web para mantener el bot activo en Replit
 import { makeWASocket, useMultiFileAuthState, fetchLatestBaileysVersion } from '@whiskeysockets/baileys';
 import pino from 'pino';
 import makeQR from 'qrcode-terminal';

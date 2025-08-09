@@ -31,7 +31,7 @@ export default async function (sock, m) {
 
         await sock.sendMessage(m.key.remoteJid, { text: "⚙️ Creando sticker..." });
         try {
-            const buffer = await downloadMediaMessage(targetMessage, "buffer", {});
+            const buffer = await downloadMediaMessage(messageToProcess, "buffer", {});
             await sock.sendMessage(m.key.remoteJid, { sticker: buffer });
         } catch (e) {
             console.error("❌ Error creando sticker:", e);

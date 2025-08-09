@@ -63,8 +63,11 @@ npm install
 #### **3. Ejecución**
 
 ```bash
-# Inicia el bot
-node index.js
+# Inicia el bot (recomendado)
+npm start
+
+# O alternativamente
+node main.js
 ```
 > Al ejecutar el comando, aparecerá un **código QR** en tu terminal.
 
@@ -73,6 +76,19 @@ node index.js
 2.  Ve a `Ajustes` > `Dispositivos vinculados` > `Vincular un dispositivo`.
 3.  Escanea el código QR que se muestra en la terminal.
 4.  ¡Listo! El bot estará en línea y operativo.
+
+---
+### `—[ ☁️ DESPLIEGUE EN REPLIT (24/7) ]—`
+
+Para mantener tu bot activo 24/7, puedes usar Replit.
+
+1.  Crea un nuevo Repl usando la plantilla **Node.js**.
+2.  Sube todos los archivos del bot.
+3.  Replit instalará las dependencias (`npm install`) y ejecutará el bot (`npm start`) automáticamente cuando presiones el botón **"Run"**.
+4.  Una vez que el bot esté conectado, la pestaña "Webview" mostrará el mensaje "Gogeta-Bot está activo!".
+5.  Para mantenerlo siempre activo, puedes usar el servicio "Always On" de Replit o un servicio de monitoreo externo como UptimeRobot apuntando a la URL de tu Webview.
+
+> **Nota:** El proyecto ya incluye los archivos de configuración (`.replit` y `replit.nix`) necesarios para que funcione correctamente en Replit.
 
 ---
 
