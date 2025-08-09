@@ -90,6 +90,18 @@ Para mantener tu bot activo 24/7, puedes usar Replit.
 
 > **Nota:** El proyecto ya incluye los archivos de configuración (`.replit` y `replit.nix`) necesarios para que funcione correctamente en Replit.
 
+### `—[ ☁️ DESPLIEGUE EN RENDER (Recomendado) ]—`
+
+Render es una excelente alternativa para un despliegue estable con almacenamiento persistente.
+
+1.  Crea una cuenta en Render.
+2.  Haz clic en **"New"** > **"Blueprint"**.
+3.  Conecta tu repositorio de GitHub donde se encuentra el bot.
+4.  Render leerá el archivo `render.yaml` y configurará automáticamente el servicio y los discos persistentes.
+5.  Haz clic en **"Apply"** para iniciar el despliegue.
+6.  Una vez desplegado, ve a la pestaña **"Logs"** de tu servicio para ver el código QR y escanearlo.
+
+> El disco persistente asegurará que no pierdas tu sesión (`session`) ni tus datos de usuario (`data`) cada vez que el bot se reinicie.
 ---
 
 ### `—[ ⚙️ COMANDOS DISPONIBLES ]—`

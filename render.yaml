@@ -1,0 +1,19 @@
+# render.yaml
+# Blueprint para desplegar Gogeta-Bot en Render.com
+
+services:
+  # Servicio principal del bot de WhatsApp
+  - type: web
+    name: gogeta-bot
+    env: node
+    # Render detectará package.json y ejecutará 'npm install' automáticamente.
+    # Este comando es explícito para mayor claridad.
+    buildCommand: "npm install"
+    # Comando para iniciar el bot, definido en package.json
+    startCommand: "npm start"
+    # Discos persistentes para guardar la sesión y los datos
+    disks:
+      - name: gogeta-session
+        mountPath: ./session
+      - name: gogeta-data
+        mountPath: ./data
