@@ -51,7 +51,8 @@ const startSock = async () => {
     try {
       await handleCommand(sock, m, plugins);
     } catch (err) {
-      console.error('❌ Error al manejar comando:', err);
+      const commandText = m.message?.conversation || m.message?.extendedTextMessage?.text || 'Comando no textual';
+      console.error(`❌ Error al manejar el comando "${commandText}":`, err);
     }
   });
 

@@ -15,11 +15,16 @@
   },
   "Tanque": {
     "description": "Resistentes y duraderos. Ofrecen protección y bonus en futuros duelos.",
-    "bonus": null
+    "bonus": {
+      "type": "DUEL_DEFENSE_INCREASE",
+      "value": 0.15
+    }
   },
   "Asesino": {
     "description": "Rápidos y letales. Ganan más experiencia en futuros duelos.",
-    "bonus": null
+    "bonus": {
+      "type": "EXP_GAIN_INCREASE",
+      "value": 0.15
+    }
   }
 }
-

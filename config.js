@@ -14,7 +14,7 @@ export const menuImage = "./media/menu.jpg"; // Asegúrate de que esta imagen ex
 
 // 🔹 Categorías del menú ordenado
 export const menuCategorias = {
-  "👤 Usuario": [".info", ".menu"],
-  "🎮 Juegos": [".adivina", ".ppt", ".ahorcado", ".trivia", ".matemática"],
-  "👮 Admin": [".antipriv", ".update", ".actualizar", ".tag"]
+  "👤 Usuario": [".menu"],
+  "🎮 Juegos": [".ppt", ".trivia"],
+  "👮 Admin": [".antipriv"]
 };

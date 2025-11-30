@@ -5,7 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "lint": "eslint . --fix"
   },
   "engines": {
     "node": "20.x"
@@ -24,5 +26,10 @@
     "sharp": "^0.32.6",
     "@distube/ytdl-core": "^2.1.6",
     "youtube-sr": "^4.3.10"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "nodemon": "^3.1.0",
+    "prettier": "^3.2.5"
   }
 }
